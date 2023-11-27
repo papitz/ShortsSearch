@@ -14,6 +14,9 @@ with open("path/to/coco.names", "r") as f:
 video_path = "path/to/your/video/file.mp4"
 cap = cv2.VideoCapture(video_path)
 
+# List to store deteced objects with timestamps
+detected_objects = []
+
 while True:
     # Read a frame from the video
     ret, frame = cap.read()
@@ -33,28 +36,42 @@ while True:
     # Run forward pass to get output from the output layers
     outs = net.forward(net.getUnconnectedOutLayersNames())
 
-    # Process the detected objects
+    # Get current timestamp
+    current_time = cap.get(cv2.CAP_PROP_POS_MSEC)
+
     for out in outs:
         for detection in out:
-            scores = detection[5:]
-            class_id = np.argmax(scores)
-            confidence = scores[class_id]
+            # Process the detected objects
+            for out in outs:
+                for detection in out:
+                    scores = detection[5:]
+                    class_id = np.argmax(scores)
+                    confidence = scores[class_id]
 
-            if confidence > 0.5:  # Confidence threshold
-                # Get the coordinates of the bounding box
-                center_x = int(detection[0] * width)
-                center_y = int(detection[1] * height)
-                w = int(detection[2] * width)
-                h = int(detection[3] * height)
+                    if confidence > 0.5:  # Confidence threshold
+                        # Get the coordinates of the bounding box
+                        center_x = int(detection[0] * width)
+                        center_y = int(detection[1] * height)
+                        w = int(detection[2] * width)
+                        h = int(detection[3] * height)
 
-                # Draw a bounding box
-                x = int(center_x - w / 2)
-                y = int(center_y - h / 2)
-                cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+                        # Draw a bounding box
+                        x = int(center_x - w / 2)
+                        y = int(center_y - h / 2)
+                        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
-                # Display the class label and confidence
-                label = f"{classes[class_id]}: {confidence:.2f}"
-                cv2.putText(frame, label, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+                        # Display the class label and confidence
+                        label = f"{classes[class_id]}: {confidence:.2f}"
+                        cv2.putText(frame, label, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+
+                        # Add detected object and timestamp to the list
+                        detected_objects.append({
+                            "time": current_time,
+                            "class_id": class_id,
+                            "lable": classes[class_id],
+                            "confidence": confidence,
+                            "bounding_box": (x, y, w, h)
+                        })
 
     # Display the resulting frame
     cv2.imshow('Object Detection', frame)
