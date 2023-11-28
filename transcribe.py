@@ -1,3 +1,8 @@
+# additional libraries:
+#     keybert: https://pypi.org/project/keybert/
+#     summarizers: https://pypi.org/project/summarizers/#description
+#
+
 import subprocess
 import os
 import sys
@@ -26,7 +31,6 @@ def transcribe_audio(audio_file):
     try:
         print("Transcribing: " + audio_file)
         transcription = r.recognize_google(audio)
-        print("Transcription:", transcription)
         return transcription
 
     except sr.UnknownValueError:
