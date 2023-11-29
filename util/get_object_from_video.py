@@ -4,7 +4,7 @@
 import cv2
 import numpy as np
 from ultralytics import YOLO
-import json
+# import json
 
 
 ## Function to extract object names
@@ -23,7 +23,6 @@ def get_list_of_objects(result, min_confidence):
 def get_objects_from_frame(model, frame, min_confidence):
     result = model.predict(source=frame, stream=False, verbose=False)
     return get_list_of_objects(result, min_confidence)
-
 
 
 ## Get all frames from a video and find objects
@@ -49,21 +48,11 @@ def detect_objects_in_video(video_path, model, min_confidence):
             break
 
         # Call the provided function with the extracted frame
-        for detected_object in get_objects_from_frame(model, frame, min_confidence):   
+        for detected_object in get_objects_from_frame(model, frame, min_confidence):
             detected_objects.add(detected_object)
 
     cap.release()
     cv2.destroyAllWindows()
-    #Convert the set of detected objects to a list
-    detected_objects_list= list(detected_objects)
-    #Save list into JSON file
-    with open("detected_objects.json", "w") as file:
-        json.dump(detected_objects_list, file)
-    print(detected_objects)
+    # Convert the set of detected objects to a list
+    detected_objects_list = list(detected_objects)
     return detected_objects
-
-## Use a pretrained YOLO model to predict objects in image
-model = YOLO("yolov8x-cls.pt")
-
-## Run video classification
-detect_objects_in_video("./test.mp4", model, 0.9)
