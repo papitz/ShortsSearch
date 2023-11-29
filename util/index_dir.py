@@ -54,5 +54,3 @@ def index_video(video_file, model, min_confidence):
     detected_objects = detect_objects_in_video(video_file, model, min_confidence)
     print(f"SET: {str(detected_objects)}")
     return str(detected_objects)
-
-
