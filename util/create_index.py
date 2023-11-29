@@ -61,10 +61,3 @@ def create_index(data, index_dir):
             detected_objects=content["detected_objects"]
         )
     writer.commit()
-
-if __name__ == "__main__":
-    transcription_data = read_json("transcription_data.json")
-    object_data = read_json("detected_objects.json")
-
-    merged_data = merge_data(transcription_data, object_data)
-    create_index(merged_data, "indexdir")
