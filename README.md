@@ -49,7 +49,18 @@ https://pypi.org/project/SpeechRecognition/
 ### Search Engine
 
 https://whoosh.readthedocs.io/en/latest/intro.html
+https://pypi.org/project/Whoosh/
 
 ### Object detection
 
-OpenCV with YOLOv3 ML network
+OpenCV and ultralytics with YOLOv8 ML network
+
+https://pypi.org/project/opencv-python/
+https://pypi.org/project/ultralytics/
+
+
+### CLI interface
+
+https://click.palletsprojects.com/en/8.1.x/
+https://pypi.org/project/click/
+
