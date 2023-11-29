@@ -8,6 +8,7 @@ import os
 import sys
 import glob
 import speech_recognition as sr
+import json
 from summarizers import Summarizers
 from keybert import KeyBERT
 
@@ -65,15 +66,21 @@ if __name__ == "__main__":
         wav_files = glob.glob(os.path.join(folder_path, '*.wav'))
 
         # Transcribe each .wav file and write the transcription, summary, and keywords to the file
+        transcription_data = {}
         for audio_file in wav_files:
             transcription = transcribe_audio(audio_file)
             
             if transcription:
-                file.write(f"File: {os.path.basename(audio_file)}\n")
-                file.write(f"Transcription: {transcription}\n\n")
                 summary = summ(transcription)
                 kw_model = KeyBERT()
                 keywords = kw_model.extract_keywords(transcription)
-                file.write(f"Summary: {summary}\n\n")
-                file.write(f"Keywords: {keywords}\n\n")
+                transcription_data[os.path.basename(audio_file)] = {
+                    "transcription": transcription,
+                    "summary": summary,
+                    "keywords": [kw[0] for kw in keywords]
+                }
+
+        # Save the transcription data to a JSON file
+        with open("transcription_data.json", "w") as file:
+            json.dump(transcription_data, file)
  

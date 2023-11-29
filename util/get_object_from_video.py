@@ -4,6 +4,7 @@
 import cv2
 import numpy as np
 from ultralytics import YOLO
+import json
 
 
 ## Function to extract object names
@@ -53,6 +54,11 @@ def detect_objects_in_video(video_path, model, min_confidence):
 
     cap.release()
     cv2.destroyAllWindows()
+    #Convert the set of detected objects to a list
+    detected_objects_list= list(detected_objects)
+    #Save list into JSON file
+    with open("detected_objects.json", "w") as file:
+        json.dump(detected_objects_list, file)
     print(detected_objects)
     return detected_objects
 
