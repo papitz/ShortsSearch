@@ -10,9 +10,8 @@ from util.index_dir import index_directory
 @click.option('--query', help='Query to run on indexed data')
 
 def cli(dir_to_index, index_file, query):
-    print('HI there')
+    print('Welcome to short search!')
     if dir_to_index:
-        print(dir_to_index)
         print("TODO: indexing logic here")
         index_directory(dir_to_index)
     if index_file:
