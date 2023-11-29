@@ -4,3 +4,4 @@ runs/detect/train
 *.pt
 short_search.egg-info
 util/__pycache__
+__pycache__
