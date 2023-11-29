@@ -21,7 +21,7 @@ def get_list_of_objects(result, min_confidence):
 
 ## Function to get objects from single image
 def get_objects_from_frame(model, frame, min_confidence):
-    result = model.predict(source=frame)
+    result = model.predict(source=frame, stream=False, verbose=False)
     return get_list_of_objects(result, min_confidence)
 
 
